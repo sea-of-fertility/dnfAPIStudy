@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+
 
 @RestController()
 @RequiredArgsConstructor
@@ -31,12 +37,10 @@ public class CharaController {
     private final String charaSearch = "https://api.neople.co.kr/df/servers/%s/characters?characterName=%s&jobId=%s&jobGrowId=%s&isAllJobGrow=%s&limit=<limit>&wordType=match&apikey=%s";
 
     @GetMapping("/character")
-    public CharacterInforms chara(@RequestBody CharaInform charaInform) {
+    public CharacterInforms chara(@RequestBody CharaInform charaInform) throws IOException {
         CharacterInforms characterInforms = findCharacterId(charaInform);
-//        charaImage(characterInforms);
-
+        charaImage(characterInforms);
         return characterInforms;
-
     }
 
     private CharacterInforms findCharacterId(CharaInform charaInform) {
@@ -46,16 +50,13 @@ public class CharaController {
                 CharacterInforms.class);
     }
 
-    private MultipartFile charaImage(CharacterInforms characterInforms) {
+    private void charaImage(CharacterInforms characterInforms) throws IOException {
         CharacterInform[] rows = characterInforms.getRows();
         for (CharacterInform row : rows) {
-            MultipartFile forObject = restTemplate.getForObject(String.format(imageUrl, row.getServerId(), row.getCharacterId(), imageSize), MultipartFile.class);
-            fileSystemStorageService.store(forObject);
-            fileSystemStorageService.
-
-
+            byte[] forObject = restTemplate.getForObject(String.format(imageUrl, row.getServerId(), row.getCharacterId(), imageSize), byte[].class);
+            assert forObject != null;
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(forObject));
+            fileSystemStorageService.store(img, row.getCharacterId());
         }
     }
-
-
 }

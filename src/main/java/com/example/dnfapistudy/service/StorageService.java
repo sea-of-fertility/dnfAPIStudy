@@ -1,15 +1,15 @@
 package com.example.dnfapistudy.service;
-
-import jakarta.annotation.Resource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public interface StorageService {
     void init();
 
-    void store(MultipartFile file);
+    void store(BufferedImage file, String charaId);
 
     Stream<Path> loadAll();
 

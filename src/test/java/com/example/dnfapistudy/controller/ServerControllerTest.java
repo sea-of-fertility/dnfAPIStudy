@@ -21,8 +21,6 @@ class ServerControllerTest {
 
     @Test
     public void test1() throws Exception {
-        //given
-
         //when
         //then
         mockMvc.perform(get("/")

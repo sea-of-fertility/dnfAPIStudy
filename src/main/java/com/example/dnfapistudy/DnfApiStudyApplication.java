@@ -3,6 +3,7 @@ package com.example.dnfapistudy;
 import com.example.dnfapistudy.api.ServerInform;
 import com.example.dnfapistudy.properties.StorageProperties;
 import com.example.dnfapistudy.service.StorageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,10 +26,10 @@ public class DnfApiStudyApplication {
         return  builder.build();
     }
 
-
     @Bean
     ApplicationRunner applicationRunner(StorageService storageService) {
         return args -> {
+            storageService.deleteAll();
             storageService.init();
         };
     }

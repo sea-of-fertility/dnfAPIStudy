@@ -1,7 +1,7 @@
-GET localhost:8080/
+GET localhost:8080/character
 Content-Type:application/json
 
 {
   "serverId": "all",
-  "name":"백설"
+  "name":"유키"
 }

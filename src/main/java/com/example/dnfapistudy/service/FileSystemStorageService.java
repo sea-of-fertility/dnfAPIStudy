@@ -3,24 +3,25 @@ package com.example.dnfapistudy.service;
 import com.example.dnfapistudy.exception.StorageException;
 import com.example.dnfapistudy.exception.StorageFileNotFoundException;
 import com.example.dnfapistudy.properties.StorageProperties;
-import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
 @Service
+@Slf4j
 public class FileSystemStorageService implements StorageService{
 
 
@@ -37,23 +38,21 @@ public class FileSystemStorageService implements StorageService{
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(BufferedImage file, String charaId) {
         try {
-            if (file.isEmpty()) {
+            if (file == null) {
                 throw new StorageException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
+                            Paths.get(charaId + ".png"))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
+            File outputfile = new File(String.valueOf(destinationFile));
+            ImageIO.write(file, "png", outputfile);
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
@@ -70,6 +69,7 @@ public class FileSystemStorageService implements StorageService{
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
+
     }
 
     @Override
@@ -81,14 +81,13 @@ public class FileSystemStorageService implements StorageService{
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
-            UrlResource resource = new UrlResource(file.toUri());
+            Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
-                return (Resource) resource;
+                return resource;
             }
             else {
                 throw new StorageFileNotFoundException(
                         "Could not read file: " + filename);
-
             }
         }
         catch (MalformedURLException e) {
