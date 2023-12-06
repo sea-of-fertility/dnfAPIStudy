@@ -9,13 +9,15 @@ import java.util.stream.Stream;
 public interface StorageService {
     void init();
 
-    void store(BufferedImage file, String charaId);
+    Path store(BufferedImage file, String charaId);
 
     Stream<Path> loadAll();
 
     Path load(String filename);
 
     Resource loadAsResource(String filename);
+
+    void delete(String id);
 
     void deleteAll();
 

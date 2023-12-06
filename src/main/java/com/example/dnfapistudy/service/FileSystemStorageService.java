@@ -38,25 +38,33 @@ public class FileSystemStorageService implements StorageService{
     }
 
     @Override
-    public void store(BufferedImage file, String charaId) {
+    public Path store(BufferedImage image, String charaId) {
+        Path path = Paths.get(charaId + ".png");
         try {
-            if (file == null) {
-                throw new StorageException("Failed to store empty file.");
-            }
-            Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(charaId + ".png"))
-                    .normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file outside current directory.");
-            }
-            File outputfile = new File(String.valueOf(destinationFile));
-            ImageIO.write(file, "png", outputfile);
+            File filePath = getFile(image, path);
+            ImageIO.write(image, "png", filePath);
         }
         catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
+            throw new StorageException("Failed to store image.", e);
         }
+        return this.rootLocation.resolve(
+                        path)
+                .normalize().toAbsolutePath();
+    }
+
+    private File getFile(BufferedImage file, Path path) {
+        if (file == null) {
+            throw new StorageException("Failed to store empty file.");
+        }
+        Path destinationFile = this.rootLocation.resolve(
+                        path)
+                .normalize().toAbsolutePath();
+        if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            // This is a security check
+            throw new StorageException(
+                    "Cannot store file outside current directory.");
+        }
+        return new File(String.valueOf(destinationFile));
     }
 
     @Override
@@ -93,6 +101,14 @@ public class FileSystemStorageService implements StorageService{
         catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
+    }
+
+    @Override
+    public void delete(String charaId) {
+        Path destinationFile = rootLocation.resolve(
+                        Paths.get(charaId + ".png"))
+                .normalize().toAbsolutePath();
+        FileSystemUtils.deleteRecursively(destinationFile.toFile());
     }
 
     @Override

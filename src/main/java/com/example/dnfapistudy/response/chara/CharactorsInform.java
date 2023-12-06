@@ -1,11 +1,11 @@
 package com.example.dnfapistudy.response.chara;
 
-import com.example.dnfapistudy.api.CharacterInforms;
+import com.example.dnfapistudy.api.CharaBasicInform;
 import lombok.Getter;
 
 public class CharactorsInform {
 
-    private CharacterInforms.CharacterInform[] rows;
+    private CharaBasicInform.CharacterInform[] rows;
 
     @Getter
     public  static  class CharacterInform{

@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class CharaInform {
+public class FindCharacter {
 
     @NotEmpty
     private String name;
@@ -16,7 +16,7 @@ public class CharaInform {
     private String serverId;
 
     @Builder
-    public CharaInform(String name, String serverId) {
+    public FindCharacter(String name, String serverId) {
         this.name = name;
         this.serverId = Objects.equals(serverId, "") ? serverId = "all" : serverId;
     }

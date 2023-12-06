@@ -1,6 +1,6 @@
 package com.example.dnfapistudy.controller;
 
-import com.example.dnfapistudy.request.CharaInform;
+import com.example.dnfapistudy.request.FindCharacter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
@@ -34,7 +33,7 @@ class CharaControllerTest {
         String severId = "cain";
         String charaName = "양을찾는모험";
         
-        CharaInform build = CharaInform.builder()
+        FindCharacter build = FindCharacter.builder()
                 .name(charaName)
                 .serverId(severId)
                 .build();
