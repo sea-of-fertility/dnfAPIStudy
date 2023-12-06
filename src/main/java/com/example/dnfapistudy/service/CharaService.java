@@ -46,7 +46,6 @@ public class CharaService {
                 CharaBasicInform.class);
     }
 
-
     /**
      *
      * @param charaBasicInform
@@ -63,5 +62,8 @@ public class CharaService {
             save(entity);
         }
     }
+
+
+    
 
 }
