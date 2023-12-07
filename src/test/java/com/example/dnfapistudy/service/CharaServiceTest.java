@@ -1,9 +1,9 @@
 package com.example.dnfapistudy.service;
 
-import com.example.dnfapistudy.api.CharaBasicInform;
+import com.example.dnfapistudy.api.CharaDetail;
 import com.example.dnfapistudy.domain.Character;
 import com.example.dnfapistudy.reposiotry.CharacterRepository;
-import com.example.dnfapistudy.request.FindCharacter;
+import com.example.dnfapistudy.request.character.FindCharacter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -37,8 +34,11 @@ class CharaServiceTest {
                 .serverId("all")
                 .build();
         //when
-        CharaBasicInform characters = charaService.findCharacterId(build);
+        CharaDetail characters = charaService.findCharacterId(build);
         //then
+
+
+        Arrays.stream(characters.getRows()).forEach(i -> System.out.println(i.getCharacterId()));
         Assertions.assertThat(Arrays.stream(characters.getRows()).allMatch(i -> i.getCharacterName().equals("유키"))).isEqualTo(true);
     }
 
@@ -50,11 +50,30 @@ class CharaServiceTest {
         FindCharacter build = FindCharacter.builder().name("유키")
                 .serverId("all")
                 .build();
-        CharaBasicInform characters = charaService.findCharacterId(build);
+        CharaDetail characters = charaService.findCharacterId(build);
         //when
-        charaService.setImageAndSave(characters);
+        charaService.setImage(characters);
         //then
         List<Character> all = characterRepository.findAll();
         Assertions.assertThat(all.stream().noneMatch(i -> i.getImagePath().isEmpty())).isEqualTo(true);
+    }
+
+
+    @Test
+    @DisplayName("검색한 캐릭터를 반환하는가?")
+    public void chara() throws Throwable {
+        //given
+        FindCharacter build = FindCharacter.builder().name("양을찾는모험")
+                .serverId("all")
+                .build();
+        CharaDetail characters = charaService.findCharacterId(build);
+
+        //when
+        charaService.setImage(characters);
+
+        //then
+        Character[] characters1 = charaService.basicInform(build);
+        System.out.println(characters1);
+
     }
 }

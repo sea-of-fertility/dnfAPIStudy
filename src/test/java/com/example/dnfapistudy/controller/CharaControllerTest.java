@@ -1,6 +1,6 @@
 package com.example.dnfapistudy.controller;
 
-import com.example.dnfapistudy.request.FindCharacter;
+import com.example.dnfapistudy.request.character.FindCharacter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

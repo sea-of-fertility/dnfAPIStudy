@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @JsonIgnoreProperties
 @Getter
-public class CharaBasicInform {
+public class CharaDetail {
 
     private CharacterInform[] rows;
 

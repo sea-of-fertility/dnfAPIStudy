@@ -1,6 +1,7 @@
-package com.example.dnfapistudy.request;
+package com.example.dnfapistudy.request.character;
 
 
+import com.example.dnfapistudy.domain.Character;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +21,5 @@ public class FindCharacter {
         this.name = name;
         this.serverId = Objects.equals(serverId, "") ? serverId = "all" : serverId;
     }
+
 }
