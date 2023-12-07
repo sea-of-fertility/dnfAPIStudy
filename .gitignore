@@ -1,10 +1,11 @@
 HELP.md
+application-api-key.yml
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-application-api-key.yml
+
 
 
 

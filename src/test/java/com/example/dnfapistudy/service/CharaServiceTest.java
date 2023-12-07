@@ -30,16 +30,14 @@ class CharaServiceTest {
     public void charaBasicInform() throws Exception {
 
         //given
-        FindCharacter build = FindCharacter.builder().name("유키")
-                .serverId("all")
+        FindCharacter build = FindCharacter.builder().name("양을찾는모험")
+                .serverId("")
                 .build();
         //when
         CharaDetail characters = charaService.findCharacterId(build);
         //then
-
-
         Arrays.stream(characters.getRows()).forEach(i -> System.out.println(i.getCharacterId()));
-        Assertions.assertThat(Arrays.stream(characters.getRows()).allMatch(i -> i.getCharacterName().equals("유키"))).isEqualTo(true);
+        Assertions.assertThat(Arrays.stream(characters.getRows()).allMatch(i -> i.getCharacterName().equals("양을찾는모험"))).isEqualTo(true);
     }
 
 
@@ -47,14 +45,16 @@ class CharaServiceTest {
     @DisplayName("모든 entity에 경로가 들어갔는가")
     public void setImage() throws Exception {
         //given
-        FindCharacter build = FindCharacter.builder().name("유키")
+        FindCharacter build = FindCharacter.builder().name("양을찾는모험")
                 .serverId("all")
                 .build();
         CharaDetail characters = charaService.findCharacterId(build);
         //when
-        charaService.setImage(characters);
+        List<Character> characters1 = charaService.setImage(characters);
+        charaService.save(characters1);
         //then
         List<Character> all = characterRepository.findAll();
+        all.stream().forEach(i -> System.out.println(i.getServerId()));
         Assertions.assertThat(all.stream().noneMatch(i -> i.getImagePath().isEmpty())).isEqualTo(true);
     }
 
@@ -63,17 +63,17 @@ class CharaServiceTest {
     @DisplayName("검색한 캐릭터를 반환하는가?")
     public void chara() throws Throwable {
         //given
-        FindCharacter build = FindCharacter.builder().name("양을찾는모험")
+        FindCharacter build = FindCharacter.builder().name("유키")
                 .serverId("all")
                 .build();
         CharaDetail characters = charaService.findCharacterId(build);
 
         //when
-        charaService.setImage(characters);
-
+        List<Character> characters2 = charaService.setImage(characters);
+        charaService.save(characters2);
         //then
-        Character[] characters1 = charaService.basicInform(build);
-        System.out.println(characters1);
+        List<Character> characters1 = charaService.basicInform(build);
+        characters1.forEach(i -> System.out.println(i.getCharacterId()));
 
     }
 }

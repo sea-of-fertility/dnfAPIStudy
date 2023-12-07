@@ -73,9 +73,9 @@ public class CharaService {
         return characters;
     }
 
-    public Character[] basicInform(FindCharacter findCharacter) throws Throwable {
+    public List<Character> basicInform(FindCharacter findCharacter) throws Throwable {
         return characterRepository
-                .findByCharacterNameAndServerId(findCharacter.getName(), findCharacter.getServerId())
+                .findByCharacterName(findCharacter.getName())
                 .orElseThrow(CharaNotFoundException::new);
     }
 

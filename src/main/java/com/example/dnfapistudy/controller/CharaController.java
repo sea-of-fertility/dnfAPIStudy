@@ -32,7 +32,8 @@ public class CharaController {
     public List<Character> chara(@RequestBody FindCharacter findCharacter) throws Throwable {
         CharaDetail charaDetail = charaService.findCharacterId(findCharacter);
         List<Character> characters = charaService.setImage(charaDetail);
-        return charaService.save(characters);
+        charaService.save(characters);
+        return charaService.basicInform(findCharacter);
     }
 
 }
