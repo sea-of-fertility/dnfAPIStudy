@@ -2,6 +2,6 @@ GET localhost:8080/character
 Content-Type:application/json
 
 {
-  "serverId": "all",
-  "name":"양을찾는모험"
+  "serverId": "cain",
+  "name":"  "
 }

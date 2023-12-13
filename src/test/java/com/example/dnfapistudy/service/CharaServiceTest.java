@@ -2,6 +2,7 @@ package com.example.dnfapistudy.service;
 
 import com.example.dnfapistudy.api.CharaDetail;
 import com.example.dnfapistudy.domain.Character;
+import com.example.dnfapistudy.exception.CharaNotFoundException;
 import com.example.dnfapistudy.reposiotry.CharacterRepository;
 import com.example.dnfapistudy.request.character.FindCharacter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,9 @@ import java.util.List;
 
 @SpringBootTest
 class CharaServiceTest {
+
+
+    String commonName = "유키";
 
     @Autowired
     ObjectMapper objectMapper;
@@ -63,7 +67,7 @@ class CharaServiceTest {
     @DisplayName("검색한 캐릭터를 반환하는가?")
     public void chara() throws Throwable {
         //given
-        FindCharacter build = FindCharacter.builder().name("유키")
+        FindCharacter build = FindCharacter.builder().name(commonName)
                 .serverId("all")
                 .build();
         CharaDetail characters = charaService.findCharacterId(build);
@@ -74,6 +78,17 @@ class CharaServiceTest {
         //then
         List<Character> characters1 = charaService.basicInform(build);
         characters1.forEach(i -> System.out.println(i.getCharacterId()));
-
     }
+
+    @Test
+    @DisplayName("닉네임 검색된 갯수 0개")
+    public void charaNotFound() throws Exception {
+        //given
+        FindCharacter build = FindCharacter.builder().name("겹치질않을 이름입니다.")
+                .serverId("all")
+                .build();
+        Assertions.assertThatThrownBy(() -> charaService.findCharacterId(build))
+                .isInstanceOf(CharaNotFoundException.class);
+    }
+
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,10 +50,15 @@ public class CharaService {
      * @return 검색된 모든 캐릭어의 고유한 id값을 []형태로 받아온다..
      */
     public CharaDetail findCharacterId(FindCharacter findCharacter) {
-        return restTemplate.getForObject(
+        CharaDetail charas = restTemplate.getForObject(
                 String.format("https://api.neople.co.kr/df/servers/%s/characters?characterName=%s&apikey=%s",
                         findCharacter.getServerId(), findCharacter.getName(), apiKey),
                 CharaDetail.class);
+        assert charas != null;
+        if (charas.getRows().length == 0){
+            throw new CharaNotFoundException();
+        }
+        return charas;
     }
 
     /**
@@ -78,6 +84,4 @@ public class CharaService {
                 .findByCharacterName(findCharacter.getName())
                 .orElseThrow(CharaNotFoundException::new);
     }
-
-
 }

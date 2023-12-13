@@ -3,9 +3,11 @@ package com.example.dnfapistudy.api;
 import com.example.dnfapistudy.domain.Character;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.ToString;
 
 @JsonIgnoreProperties
 @Getter
+@ToString
 public class CharaDetail {
 
     private CharacterInform[] rows;
