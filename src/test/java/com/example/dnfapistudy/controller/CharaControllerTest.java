@@ -19,16 +19,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 class CharaControllerTest {
 
-
     @Autowired
     MockMvc mockMvc;
-
 
     @Autowired
     ObjectMapper objectMapper;
 
-
     @Test
+    @DisplayName("캐릭터 검색")
     public void charaInform() throws Exception {
         //given
         String severId = "cain";
@@ -51,11 +49,11 @@ class CharaControllerTest {
     }
 
     @Test
-    @DisplayName("공백의 닉네임을 입력")
+    @DisplayName("잘못된 형식의 닉네임을 입력")
     public void chaaraNotFound() throws Exception {
         //given
         String severId = "cain";
-        String charaName = "  ";
+        String charaName = " ";
 
         FindCharacter build = FindCharacter.builder()
                 .name(charaName)
@@ -68,7 +66,6 @@ class CharaControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
-
 }

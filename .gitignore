@@ -1,5 +1,5 @@
 HELP.md
-application-api-key.yml
+/src/main/resources/application-api-key.yml
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

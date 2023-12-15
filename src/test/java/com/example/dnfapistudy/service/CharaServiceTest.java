@@ -46,7 +46,7 @@ class CharaServiceTest {
 
 
     @Test
-    @DisplayName("모든 entity에 경로가 들어갔는가")
+    @DisplayName("모든 entity에 사진 경로가 들어갔는가")
     public void setImage() throws Exception {
         //given
         FindCharacter build = FindCharacter.builder().name("양을찾는모험")

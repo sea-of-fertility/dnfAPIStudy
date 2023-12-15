@@ -1,5 +1,6 @@
 package com.example.dnfapistudy.controller;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ class ServerControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @DisplayName("서버 정보를 가져오는 확인")
     public void test1() throws Exception {
         //when
         //then

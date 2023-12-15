@@ -6,6 +6,7 @@ import com.example.dnfapistudy.exception.CharaNotFoundException;
 import com.example.dnfapistudy.reposiotry.CharacterRepository;
 import com.example.dnfapistudy.request.character.FindCharacter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CharaService {
 
@@ -54,18 +56,12 @@ public class CharaService {
                 String.format("https://api.neople.co.kr/df/servers/%s/characters?characterName=%s&apikey=%s",
                         findCharacter.getServerId(), findCharacter.getName(), apiKey),
                 CharaDetail.class);
-        assert charas != null;
         if (charas.getRows().length == 0){
             throw new CharaNotFoundException();
         }
         return charas;
     }
 
-    /**
-     * @param charaDetail
-     * @return
-     * @throws IOException
-     */
     public List<Character> setImage(CharaDetail charaDetail) throws IOException {
         CharaDetail.CharacterInform[] rows = charaDetail.getRows();
         List<Character> characters = new ArrayList<>();
