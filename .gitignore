@@ -5,7 +5,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+/upload-dir/
 
 
 
@@ -38,4 +38,8 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode
+
+
+###node env###
+env
