@@ -45,7 +45,3 @@ Bean Validator을 통한 검증시 여러개의 유효하지 않은 데이터가
         }
 
     }
-
-
-
-ErrorResponse 클래스에 
