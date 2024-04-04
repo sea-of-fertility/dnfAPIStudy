@@ -10,6 +10,8 @@
 
 # 고민 사항
 Bean Validator을 통한 검증시 여러개의 유효하지 않은 데이터가 들어올 때 어떻게 할까?
+
+
 유효하지 않은 데이터가 들어올 경우 아래 메소드를 통해 ErrorResponse를 반환 한다.
     
     @ResponseBody
